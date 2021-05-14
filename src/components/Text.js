@@ -1,20 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getText } from '../redux/actions';
 
-export default class extends React.Component {
-    constructor(props) {
-        super(props);
+const Text = props => {
 
-        this.state = {
-            text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore consequuntur \
-                voluptatem obcaecati nulla voluptates officiis nihil in, inventore aperiam dolorum \
-                veritatis porro expedita ad sapiente temporibus exercitationem hic. Tempore beatae porro \
-                voluptatibus a, repudiandae dolorem quasi commodi fuga consequatur pariatur.'
-        }
-    }
-
-    render() {
-        return(
-            <p className="text-center">{this.state.text}</p>
-        );
-    }
+    return(
+        <div>
+            <p className="text-center">{props.receivedText}</p>
+            <button type="button" className="btn btn-primary" onClick={() => props.getText()}>Get</button>
+        </div>
+    );
 }
+
+const mapStateToProps = state => {
+    return {
+        receivedText: state.text.text
+    };
+}
+
+const mapDispatchToProps = {
+    getText
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Text);
