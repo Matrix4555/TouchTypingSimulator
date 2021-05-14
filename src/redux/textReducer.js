@@ -1,7 +1,7 @@
 import { GET_TEXT } from './types';
 
 const initialState = {
-    text: 'Sorry. Here is empty'
+    text: 'Click Get button to start'
 }
 
 export const textReducer = (state = initialState, action) => {
