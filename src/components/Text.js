@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getText } from '../redux/actions';
 import '../style.css';
 import $ from 'jquery';
+import { Loader } from './Loader';
+import { addMistake, setSpeed } from '../redux/actions';
 
 class Text extends React.Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class Text extends React.Component {
 
         this.letters = null;
         this.counter = null;
+        this.currentLetterHasError = false;
 
         setTimeout(() => {
             $('#btn-get').on('click', function() {
@@ -18,50 +20,46 @@ class Text extends React.Component {
         }, 0)
 
         $('body').on('keydown', event => {
-
             if(event.key.length !== 1)      // pressed button mustn't be with long title because it must be a symbol
                 return;
-
             const currentLetter = this.letters[this.counter].innerHTML;
-        
             if(event.key === currentLetter) {
-
                 this.letters[this.counter].className = 'letter fs-2 passed';
                 this.counter++;
                 this.letters[this.counter].className = 'letter fs-2 current';
-
-                console.log('true');
+                this.currentLetterHasError = false;
+                //console.log('true');
             }
-            else {
+            else if(!this.currentLetterHasError) {
+                this.currentLetterHasError = true;
+                this.props.dispatch(addMistake());
                 this.letters[this.counter].className = 'letter fs-2 mistaked';
-                console.log('false, should press ' + currentLetter);
+                //console.log('false, should press ' + currentLetter);
             }
-
         });
+
     }
 
-    async updateText() {
-        await this.props.getText();
+    componentDidUpdate() {          // when we got new text
+        if(this.props.loading)
+            return;
         this.letters = $('.letter');
         this.counter = 0;
-        this.letters[this.counter].className = 'letter fs-2 current'; 
+        this.letters[0].className = 'letter fs-2 current';
+        this.currentLetterHasError = false;
+
+        //console.log('component Did Update');
     }
 
     render() {
-        return(
-            <div className="container pt-5">
-                <div className="d-flex flex-row align-items-center bg-info text-white mb-3">
-                    <button id="btn-get" type="button" className="btn btn-primary" onClick={() => this.updateText()}>Get</button>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Game Mode</label>
-                    </div>
-                </div>
-                <div className="container bg-primary text-white rounded border border-success">
+        return(    
+            <div className="container bg-primary text-white rounded border border-success">
+                {this.props.loading ?
+                    <Loader /> : 
                     <p className="text-center pt-3">{this.props.receivedText.split('').map((letter, index) => {
                         return <span className="letter fs-2" key={index}>{letter}</span>;
                     })}</p>
-                </div>
+                }
             </div>
         );
     }
@@ -69,12 +67,9 @@ class Text extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        receivedText: state.text.text
+        receivedText: state.text.text,
+        loading: state.text.loading
     };
 }
 
-const mapDispatchToProps = {
-    getText
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Text);
+export default connect(mapStateToProps, null)(Text);
