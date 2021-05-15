@@ -6,10 +6,12 @@ function AccuracyIndicator({ numberOfLetters, numberOfMistakes }) {
     const accurancy = ((numberOfLetters - numberOfMistakes) / numberOfLetters * 100).toFixed(2);
 
     return(
-        <div>
-            <div className="card-body bg-info text-white mt-3">
-                <h5 className="card-title">Accurancy</h5>
-                <p className="card-text">{accurancy}%</p>
+        <div class="card w-25">
+            <div class="card-header bg-primary text-white">
+                Accuracy
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{ isNaN(accurancy) ? 0 : accurancy }%</h5>
             </div>
         </div>
     );

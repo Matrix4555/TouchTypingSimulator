@@ -3,15 +3,27 @@ import { connect } from 'react-redux';
 import '../style.css';
 import $ from 'jquery';
 import { Loader } from './Loader';
-import { addMistake, setSpeed } from '../redux/actions';
+import { addInputtedLetter, addMistake, addSecond, resetSpeed } from '../redux/actions';
 
 class Text extends React.Component {
     constructor(props) {
         super(props);
-
+        
         this.letters = null;
         this.counter = null;
         this.currentLetterHasError = false;
+    
+
+
+
+        this.timerPause = true;
+        setInterval(() => {
+
+            if(!this.timerPause)
+                this.props.dispatch(addSecond());
+        }, 1000);
+
+
 
         setTimeout(() => {
             $('#btn-get').on('click', function() {
@@ -29,6 +41,14 @@ class Text extends React.Component {
                 this.letters[this.counter].className = 'letter fs-2 current';
                 this.currentLetterHasError = false;
                 //console.log('true');
+
+
+
+                this.timerPause = false;
+
+                
+                this.props.dispatch(addInputtedLetter());
+
             }
             else if(!this.currentLetterHasError) {
                 this.currentLetterHasError = true;
@@ -41,25 +61,36 @@ class Text extends React.Component {
     }
 
     componentDidUpdate() {          // when we got new text
+
+        this.timerPause = true;
+        this.props.dispatch(resetSpeed());
+
         if(this.props.loading)
             return;
+            
         this.letters = $('.letter');
         this.counter = 0;
         this.letters[0].className = 'letter fs-2 current';
         this.currentLetterHasError = false;
 
-        //console.log('component Did Update');
+        
+        
+
     }
 
     render() {
         return(    
-            <div className="container bg-primary text-white rounded border border-success">
-                {this.props.loading ?
-                    <Loader /> : 
-                    <p className="text-center pt-3">{this.props.receivedText.split('').map((letter, index) => {
-                        return <span className="letter fs-2" key={index}>{letter}</span>;
-                    })}</p>
-                }
+            <div
+                className="container bg-primary text-white rounded border border-success mt-2 mb-2"
+                style={{height: '400px'}}
+            >
+            {
+                this.props.loading ?
+                <Loader /> : 
+                <p className="text-center pt-3">{this.props.receivedText.split('').map((letter, index) => {
+                    return <span className="letter fs-2" key={index}>{letter}</span>;
+                })}</p>
+            }
             </div>
         );
     }

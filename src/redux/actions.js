@@ -1,4 +1,4 @@
-import { GET_TEXT, TOGGLE_LOADER, SET_NUMBER_OF_LETTERS, ADD_MISTAKE, ADD_SPEED, RESET_MISTAKES } from "./types";
+import { GET_TEXT, TOGGLE_LOADER, SET_NUMBER_OF_LETTERS, ADD_INPUTTED_LETTER, ADD_MISTAKE, ADD_SECOND, RESET_MISTAKES, RESET_SPEED } from "./types";
 
 export function getText() {
     return async dispatch => {
@@ -6,12 +6,12 @@ export function getText() {
         const url = 'https://baconipsum.com/api/?type=meat-and-filler&sentences=1&format=text';
         const response = await fetch(url);
         const data = await response.text();
+        dispatch(resetMistakes());
+        dispatch(setNumberOfLetters(data.length));
         dispatch({
             type: GET_TEXT,
             payload: data
         });
-        dispatch(setNumberOfLetters(data.length));
-        dispatch(resetMistakes());
         dispatch(toggleLoader(false));
     }
 }
@@ -42,8 +42,20 @@ export function resetMistakes() {
     };
 }
 
-export function addSpeed() {
+export function addSecond() {
     return {
-        type: ADD_SPEED
+        type: ADD_SECOND
+    };
+}
+
+export function addInputtedLetter() {
+    return {
+        type: ADD_INPUTTED_LETTER
+    };
+}
+
+export function resetSpeed() {
+    return {
+        type: RESET_SPEED
     };
 }

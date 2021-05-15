@@ -1,5 +1,13 @@
 p {
-    /* letter-spacing: 2px; */
+    letter-spacing: 1px;
+}
+
+.btn {
+    margin: 0 5px 0 0;
+} 
+
+.form-switch {
+    margin: 0 0 0 15px;
 }
 
 .passed {

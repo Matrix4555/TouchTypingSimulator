@@ -1,12 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-function SpeedIndicator({ speed }) {
+function SpeedIndicator({ numberOfInputtedSymbols, numberOfPassedSeconds }) {
+
+    const speed = numberOfPassedSeconds ?
+        (numberOfInputtedSymbols * 60 / numberOfPassedSeconds).toFixed(0) : 0;
+
     return(
-        <div>
-            <div className="card-body bg-info text-white mt-3">
-                <h5 className="card-title">Speed</h5>
-                <p className="card-text">{speed} знаков в минуту</p>
+        <div class="card" style={{width: '300px'}}>
+            <div class="card-header bg-primary text-white">
+                Speed
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{speed} characters per minute</h5>
             </div>
         </div>
     );
@@ -14,7 +20,8 @@ function SpeedIndicator({ speed }) {
 
 const mapStateToProps = state => {
     return {
-        speed: state.indicator.speed
+        numberOfInputtedSymbols: state.indicator.numberOfInputtedSymbols,
+        numberOfPassedSeconds: state.indicator.numberOfPassedSeconds
     };
 }
 
