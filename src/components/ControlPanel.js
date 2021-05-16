@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { getText } from '../redux/actions';
+import { getText, pauseTimer } from '../redux/actions';
 import { useSelector } from 'react-redux';
 
 export const ControlPanel = () => {
@@ -20,8 +20,10 @@ export const ControlPanel = () => {
                 }>Get new text</button>
                 <button
                     className="btn btn-primary"
-                    onClick={() => {window.$('#exampleModal').modal('show');}
-                }>Change number of sentences</button>
+                    onClick={() => {
+                        dispatch(pauseTimer(true));
+                        window.$('#input-modal').modal('show');
+                }}>Change number of sentences</button>
             </div>
 
             <div className="d-flex align-items-center">

@@ -14,7 +14,8 @@ function SpeedIndicator({ numberOfInputtedSymbols, numberOfPassedSeconds, loadin
             </div>
             <div class="card-body">
                 <h5 class="card-title">{
-                    loading ? <Loader /> : `${speed} characters per minute`
+                    loading ? <Loader certainId={'indicator-spinner'}/> :
+                    `${speed} characters per minute`
                 }</h5>
             </div>
         </div>

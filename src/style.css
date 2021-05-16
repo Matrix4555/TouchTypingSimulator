@@ -21,3 +21,43 @@ label {
 .mistaked {
     background-color: red;
 }
+
+.alert {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: none;
+    text-align: center;
+    width: 350px;
+    transform: translate(-350px, 0);
+    transition: transform .5s;
+}
+
+.text-field {
+    min-height: 350px;
+}
+
+.text-field:focus {
+    outline: none;
+}
+
+/*p {
+    letter-spacing: 1px;
+}*/
+
+span {
+    white-space: pre-wrap;
+    /* margin: 0 auto; */
+    justify-self: center;
+}
+
+#text-spinner {
+    align-self: center;
+    height: 100px;
+    width: 100px;
+}
+
+#indicator-spinner {
+    height: 22px;
+    width: 22px;
+}

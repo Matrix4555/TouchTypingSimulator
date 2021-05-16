@@ -12,7 +12,7 @@ const initialState = {
 
 export const indicatorReducer = (state = initialState, action) => {
     switch(action.type) {
-
+        
         // accuracy
         case SET_NUMBER_OF_LETTERS:
             return {...state, numberOfLetters: action.payload};

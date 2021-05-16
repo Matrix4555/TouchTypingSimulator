@@ -14,7 +14,7 @@ function AccuracyIndicator({ numberOfLetters, numberOfMistakes, loading }) {
             </div>
             <div class="card-body">
                 <h5 class="card-title">{
-                    loading ? <Loader /> :
+                    loading ? <Loader certainId={'indicator-spinner'}/> :
                     accuracy + '%'
                 }</h5>
             </div>
