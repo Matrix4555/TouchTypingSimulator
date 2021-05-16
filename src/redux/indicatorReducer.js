@@ -1,11 +1,11 @@
-import { SET_NUMBER_OF_LETTERS, ADD_MISTAKE, ADD_INPUTTED_LETTER, RESET_MISTAKES, ADD_SECOND, RESET_SPEED } from "./types";
+import { SET_NUMBER_OF_LETTERS, ADD_MISTAKE, ADD_INPUTTED_SYMBOL, RESET_MISTAKES, ADD_SECOND, RESET_SPEED } from "./types";
 
 const initialState = {
-    // accuracy
+    // accuracy, data for formula
     numberOfLetters: 0,
     numberOfMistakes: 0,
 
-    // speed
+    // speed, data for formula
     numberOfInputtedSymbols: 0,
     numberOfPassedSeconds: 0
 }
@@ -24,7 +24,7 @@ export const indicatorReducer = (state = initialState, action) => {
         // speed
         case ADD_SECOND:
             return {...state, numberOfPassedSeconds: state.numberOfPassedSeconds + 1};
-        case ADD_INPUTTED_LETTER:
+        case ADD_INPUTTED_SYMBOL:
             return {...state, numberOfInputtedSymbols: state.numberOfInputtedSymbols + 1};
         case RESET_SPEED:
             return {...state, numberOfInputtedSymbols: 0, numberOfPassedSeconds: 0};

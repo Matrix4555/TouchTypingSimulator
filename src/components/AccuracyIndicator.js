@@ -1,17 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { Loader } from './Loader';
 
-function AccuracyIndicator({ numberOfLetters, numberOfMistakes }) {
+function AccuracyIndicator({ numberOfLetters, numberOfMistakes, loading }) {
 
-    const accurancy = ((numberOfLetters - numberOfMistakes) / numberOfLetters * 100).toFixed(2);
+    const accuracy = numberOfLetters ?
+        ((numberOfLetters - numberOfMistakes) / numberOfLetters * 100).toFixed(2) : 0;
 
     return(
-        <div class="card w-25">
+        <div class="card w-25 indicator">
             <div class="card-header bg-primary text-white">
                 Accuracy
             </div>
             <div class="card-body">
-                <h5 class="card-title">{ isNaN(accurancy) ? 0 : accurancy }%</h5>
+                <h5 class="card-title">{
+                    loading ? <Loader /> :
+                    accuracy + '%'
+                }</h5>
             </div>
         </div>
     );
@@ -20,7 +25,8 @@ function AccuracyIndicator({ numberOfLetters, numberOfMistakes }) {
 const mapStateToProps = state => {
     return {
         numberOfLetters: state.indicator.numberOfLetters,
-        numberOfMistakes: state.indicator.numberOfMistakes
+        numberOfMistakes: state.indicator.numberOfMistakes,
+        loading: state.text.loading
     };
 }
 

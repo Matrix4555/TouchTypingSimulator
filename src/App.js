@@ -3,10 +3,16 @@ import { ControlPanel } from './components/ControlPanel';
 import Text from './components/Text';
 import AccuracyIndicator from './components/AccuracyIndicator';
 import SpeedIndicator from './components/SpeedIndicator';
+import { Modal } from './components/Modal';
+import { InputModal } from './components/InputModal';
+import './style.css';
 
 function App() {
+
   return (
     <div className="container pt-3" style={{width: '800px'}}>
+      <Modal />
+      <InputModal />
       <ControlPanel />
       <Text />
       <div className="d-flex justify-content-end">

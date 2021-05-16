@@ -1,18 +1,34 @@
-import { GET_TEXT, TOGGLE_LOADER, SET_NUMBER_OF_LETTERS, ADD_INPUTTED_LETTER, ADD_MISTAKE, ADD_SECOND, RESET_MISTAKES, RESET_SPEED } from "./types";
+import { GET_TEXT, TOGGLE_LOADER, SET_NUMBER_OF_LETTERS, ADD_INPUTTED_SYMBOL, ADD_MISTAKE, ADD_SECOND, RESET_MISTAKES, RESET_SPEED, CHANGE_NUMBER_OF_SENTENCES, REPEAT_THE_SAME_TEXT } from "./types";
 
-export function getText() {
+export function getText(number) {
     return async dispatch => {
+
+        if(number === -1) {     // if the user wants to repeat the same text and write it again
+            dispatch({
+                type: REPEAT_THE_SAME_TEXT
+            })
+            return;
+        }
+
         dispatch(toggleLoader(true));
-        const url = 'https://baconipsum.com/api/?type=meat-and-filler&sentences=1&format=text';
+        const url = `https://baconipsum.com/api/?type=meat-and-filler&sentences=${number}&format=text`;
         const response = await fetch(url);
         const data = await response.text();
-        dispatch(resetMistakes());
         dispatch(setNumberOfLetters(data.length));
+        dispatch(resetMistakes());
+        dispatch(resetSpeed());
         dispatch({
             type: GET_TEXT,
             payload: data
         });
         dispatch(toggleLoader(false));
+    }
+}
+
+export function changeNumberOfSentences(number) {
+    return {
+        type: CHANGE_NUMBER_OF_SENTENCES,
+        payload: number
     }
 }
 
@@ -48,9 +64,9 @@ export function addSecond() {
     };
 }
 
-export function addInputtedLetter() {
+export function addInputtedSymbol() {
     return {
-        type: ADD_INPUTTED_LETTER
+        type: ADD_INPUTTED_SYMBOL
     };
 }
 

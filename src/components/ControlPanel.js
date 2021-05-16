@@ -1,12 +1,13 @@
 import React from 'react';
-
 import { useDispatch } from 'react-redux';
 import { getText } from '../redux/actions';
+import { useSelector } from 'react-redux';
 
 export const ControlPanel = () => {
 
     const dispatch = useDispatch();
-    // d-flex flex-row align-items-center bg-info text-white mb-3
+    const number = useSelector(state => state.text.numberOfSentences);
+
     return(
         <div className="d-flex justify-content-between">
 
@@ -15,9 +16,12 @@ export const ControlPanel = () => {
                     id="btn-get"
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => dispatch(getText())}
-                >Get Text</button>
-                <button className="btn btn-primary">Change number of sentences</button>
+                    onClick={() => dispatch(getText(number))
+                }>Get new text</button>
+                <button
+                    className="btn btn-primary"
+                    onClick={() => {window.$('#exampleModal').modal('show');}
+                }>Change number of sentences</button>
             </div>
 
             <div className="d-flex align-items-center">
