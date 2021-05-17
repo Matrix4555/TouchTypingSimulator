@@ -1,10 +1,14 @@
-import { GET_TEXT, CHANGE_NUMBER_OF_SENTENCES, TOGGLE_LOADER, REPEAT_THE_SAME_TEXT, PAUSE_TIMER } from './types';
+import {
+    GET_TEXT, REPEAT_THE_SAME_TEXT, CHANGE_NUMBER_OF_SENTENCES,
+    PAUSE_TIMER, TOGGLE_LOADER, TOGGLE_GAME_MODE
+} from './types';
 
 const initialState = {
     text: 'Click the \'Get new text\' button to start',
     numberOfSentences: 1,
-    pauseTimer: false,
-    loading: false
+    pauseTimer: true,
+    loading: false,
+    gameMode: false
 }
 
 export const textReducer = (state = initialState, action) => {
@@ -22,6 +26,8 @@ export const textReducer = (state = initialState, action) => {
             return {...state, pauseTimer: action.payload};
         case TOGGLE_LOADER:
             return {...state, loading: action.payload};
+        case TOGGLE_GAME_MODE:
+            return {...state, gameMode: action.payload};
         default:
             return state;
     }

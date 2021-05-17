@@ -1,16 +1,17 @@
 import React from 'react';
+import './style.css';
+
+import { Modal } from './components/Modal';
+import { InputModal } from './components/InputModal';
+import { DangerModal } from './components/DangerModal';
 import { ControlPanel } from './components/ControlPanel';
+import { Alert } from './components/Alert';
+
 import Text from './components/Text';
 import AccuracyIndicator from './components/AccuracyIndicator';
 import SpeedIndicator from './components/SpeedIndicator';
-import { Modal } from './components/Modal';
-import { InputModal } from './components/InputModal';
-import './style.css';
-import { DangerModal } from './components/DangerModal';
-import { Alert } from './components/Alert';
 
 function App() {
-
   return (
     <div>
       <div className="container pt-3" style={{width: '800px'}}>

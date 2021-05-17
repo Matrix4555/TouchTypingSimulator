@@ -1,33 +1,36 @@
-import { SET_NUMBER_OF_LETTERS, ADD_MISTAKE, ADD_INPUTTED_SYMBOL, RESET_MISTAKES, ADD_SECOND, RESET_SPEED } from "./types";
+import {
+    SET_NUMBER_OF_CHARACTERS, ADD_MISTAKE, RESET_ACCURACY,
+    ADD_SECOND, ADD_INPUTTED_CHARACTER, RESET_SPEED
+} from "./types";
 
 const initialState = {
     // accuracy, data for formula
-    numberOfLetters: 0,
-    numberOfMistakes: 0,
+    characters: 0,
+    mistakes: 0,
 
     // speed, data for formula
-    numberOfInputtedSymbols: 0,
-    numberOfPassedSeconds: 0
+    inputtedCharacters: 0,
+    passedSeconds: 0
 }
 
 export const indicatorReducer = (state = initialState, action) => {
     switch(action.type) {
         
         // accuracy
-        case SET_NUMBER_OF_LETTERS:
-            return {...state, numberOfLetters: action.payload};
+        case SET_NUMBER_OF_CHARACTERS:
+            return {...state, characters: action.payload};
         case ADD_MISTAKE:
-            return {...state, numberOfMistakes: state.numberOfMistakes + 1};
-        case RESET_MISTAKES:
-            return {...state, numberOfMistakes: 0};
+            return {...state, mistakes: state.mistakes + 1};
+        case RESET_ACCURACY:
+            return {...state, mistakes: 0};
 
         // speed
         case ADD_SECOND:
-            return {...state, numberOfPassedSeconds: state.numberOfPassedSeconds + 1};
-        case ADD_INPUTTED_SYMBOL:
-            return {...state, numberOfInputtedSymbols: state.numberOfInputtedSymbols + 1};
+            return {...state, passedSeconds: state.passedSeconds + 1};
+        case ADD_INPUTTED_CHARACTER:
+            return {...state, inputtedCharacters: state.inputtedCharacters + 1};
         case RESET_SPEED:
-            return {...state, numberOfInputtedSymbols: 0, numberOfPassedSeconds: 0};
+            return {...state, inputtedCharacters: 0, passedSeconds: 0};
 
         default:
             return state;

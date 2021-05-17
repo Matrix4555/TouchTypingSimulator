@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { Loader } from './Loader';
 
-function AccuracyIndicator({ numberOfLetters, numberOfMistakes, loading }) {
+function AccuracyIndicator({ characters, mistakes, loading }) {
 
-    const accuracy = numberOfLetters ?
-        ((numberOfLetters - numberOfMistakes) / numberOfLetters * 100).toFixed(2) : 0;
+    const accuracy = characters ?
+        ((characters - mistakes) / characters * 100).toFixed(2) : 0;
 
     return(
         <div class="card w-25 indicator">
@@ -15,7 +15,7 @@ function AccuracyIndicator({ numberOfLetters, numberOfMistakes, loading }) {
             <div class="card-body">
                 <h5 class="card-title">{
                     loading ? <Loader certainId={'indicator-spinner'}/> :
-                    accuracy + '%'
+                    `${accuracy}%`
                 }</h5>
             </div>
         </div>
@@ -24,8 +24,8 @@ function AccuracyIndicator({ numberOfLetters, numberOfMistakes, loading }) {
 
 const mapStateToProps = state => {
     return {
-        numberOfLetters: state.indicator.numberOfLetters,
-        numberOfMistakes: state.indicator.numberOfMistakes,
+        characters: state.indicator.characters,
+        mistakes: state.indicator.mistakes,
         loading: state.text.loading
     };
 }

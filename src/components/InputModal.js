@@ -40,14 +40,8 @@ export const InputModal = () => {
                         </div>
                     <div class="modal-body">
                         <div class="mb-3 d-flex">
-                            <label for="recipient-name" class="col-form-label">Number:</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="number-value"
-                                style={{width: '35px'}}
-                                onChange={handleChange}
-                            />
+                            <label for="recipient-name" class="col-form-label" id="number-label">Number:</label>
+                            <input type="text" class="form-control" id="number-value" style={{width: '35px'}} onChange={handleChange} />
                         </div>
                         <label style={{fontSize: '15px'}}>
                             The changes will take effect for the new text

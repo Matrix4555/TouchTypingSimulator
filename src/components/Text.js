@@ -1,21 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import { Loader } from './Loader';
-import { addInputtedSymbol, addMistake, addSecond } from '../redux/actions';
+import { addSecond, addInputtedSymbol, addMistake, pauseTimer } from '../redux/actions';
+import $ from 'jquery';
 
 class Text extends React.Component {
     constructor(props) {
         super(props);
         
+        this.currentText = 'Click the \'Get new text\' button to start';
         this.characters = null;
         this.counter = null;
         this.currentCharacterHasError = false;
 
-        this.pauseTimer = true;
+        this.gameMode = false;
+        this.used = [];
+
         setInterval(() => {
-            if(!this.pauseTimer && !this.props.thirdPartyPauseTimer)
-                this.props.dispatch(addSecond());
+            if(!this.props.pauseTimerIsActive)
+                this.props.addSecond();
         }, 1000);
 
         this.setHandlers();
@@ -44,35 +47,47 @@ class Text extends React.Component {
 
             if(event.key === $('.current').text())
                 this.correctInput();
-            else if(!this.currentCharacterHasError) {
+            else if(!this.currentCharacterHasError)
                 this.wrongInput();
-                console.log($('.current').text());
-            }
-
+            
         });
     }
 
     correctInput() {
-        this.characters[this.counter].className = 'character fs-4 passed';
 
-        if(this.counter + 1 === this.characters.length) {      // after we have typed the last character
-            this.pauseTimer = true;
+        this.characters[this.counter].className = 'character fs-4 passed';
+        this.currentCharacterHasError = false;
+
+        const amountOfCharacters = this.characters.length;
+        // if we have typed a last character
+        if((!this.gameMode && this.counter + 1 === amountOfCharacters) || this.used.length + 1 === amountOfCharacters) {
+            this.used = [];
+            this.props.pauseTimer(true);
             window.$('#modal-result').modal('show');
             $('.indicator').css('z-index', '9999');
             return;
         }
 
-        this.characters[++this.counter].className = 'character fs-4 current';
-        this.currentCharacterHasError = false;
-        
-        this.pauseTimer = false;
-        this.props.dispatch(addInputtedSymbol());
+        if(this.gameMode) {
+            this.used.push(this.counter);
+            while(true) {
+                this.counter = this.getRandom(amountOfCharacters);
+                if(!this.used.includes(this.counter))
+                    break;
+            }
+            this.characters[this.counter].className = 'character fs-4 current';
+        }
+        else
+            this.characters[++this.counter].className = 'character fs-4 current';
+
+        this.props.pauseTimer(false);
+        this.props.addInputtedSymbol();
     }
 
     wrongInput() {
-        this.currentCharacterHasError = true;
-        this.props.dispatch(addMistake());
         this.characters[this.counter].className = 'character fs-4 current mistaked';
+        this.currentCharacterHasError = true;
+        this.props.addMistake();
     }
 
     showAlert() {
@@ -80,35 +95,29 @@ class Text extends React.Component {
         if(alert.css('display') === 'none') {
             setTimeout(() => {
                 alert.css('transform', 'translate(-350px, 0)');
-                setTimeout(() => alert.css('display', 'none'), 500);    // .5s is transition time
+                setTimeout(() => alert.css('display', 'none'), 500);    // .5s is the transition time
             }, 4000);
         }
         alert.css('display', 'block');
         setTimeout(() => alert.css('transform', 'translate(0, 0)'), 0);
     }
 
-    componentDidUpdate() {      // when we update the text (after state change)
+    getRandom(max) {
+        return Math.floor(Math.random() * max);
+    }
 
-        if(this.props.loading)
+    componentDidUpdate() {
+
+        // if the text hasn't changed when the state was updated or loading is working then skip the next changes
+        if(this.currentText === this.props.text || this.props.loading)
             return;
-
-        // we must track the input-modal because it changes the state of current component and
-        // render will happen but we have to prevent it
-        let displayOfInputModal = $('#input-modal').css('display');
-        // the input-modal doesn't have time to change its display css property but actualy
-        // when the third party pause becomes active, it speaks that that property is block
-        // because this pause is active only after opening of input-modal
-        if(this.props.thirdPartyPauseTimer)
-            displayOfInputModal = 'block';
-
-        if(displayOfInputModal === 'block')
-            return;
-
+        
+        this.currentText = this.props.text;
+        this.gameMode = this.props.gameMode;
+        
         this.characters = $('.character');
-        this.counter = 0;
-        this.characters[0].className = 'character fs-4 current';
-        this.currentCharacterHasError = false;
-
+        this.counter = !this.props.gameMode ? 0 : this.getRandom(this.characters.length);
+        this.characters[this.counter].className = 'character fs-4 current';
 
         $('.text-field').trigger('focus');
     }
@@ -116,19 +125,17 @@ class Text extends React.Component {
     render() {
         
         // if the text repeats then it may contain an asterisk (more details in textReducer)
-        // we have to remove it
+        // we have to remove it here
         const text = this.props.text.replace('*', '');
 
         return(
-            <div
-                className="text-field container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center"
-                tabindex="0"
-            >{this.props.loading ?
-                <Loader certainId={'text-spinner'}/> :
-                <p className="align-self-center pt-2 pb-1">{text.split('').map((letter, index) =>
-                    <span className="character fs-4" key={index}>{letter}</span>
-                )}</p>
-            }</div>  
+            <div className="text-field container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabindex="0">{
+                this.props.loading ?
+                    <Loader certainId={'text-spinner'}/> :
+                    <p className="align-self-center pt-2 pb-1">{
+                        text.split('').map((letter, index) => <span className="character fs-4" key={index}>{letter}</span>)
+                    }</p>
+            }</div>
         );
     }
 }
@@ -136,10 +143,14 @@ class Text extends React.Component {
 const mapStateToProps = state => {
     return {
         text: state.text.text,
-        thirdPartyPauseTimer: state.text.pauseTimer,
-        loading: state.text.loading
-        // toggle mode
+        pauseTimerIsActive: state.text.pauseTimer,
+        loading: state.text.loading,
+        gameMode: state.text.gameMode
     };
 }
 
-export default connect(mapStateToProps, null)(Text);
+const mapDispatchToProps = {
+    addSecond, addInputtedSymbol, addMistake, pauseTimer
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Text);

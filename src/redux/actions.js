@@ -1,10 +1,13 @@
-import { GET_TEXT, TOGGLE_LOADER, SET_NUMBER_OF_LETTERS, ADD_INPUTTED_SYMBOL, ADD_MISTAKE, ADD_SECOND, RESET_MISTAKES, RESET_SPEED, CHANGE_NUMBER_OF_SENTENCES, REPEAT_THE_SAME_TEXT, PAUSE_TIMER } from "./types";
+import {
+    GET_TEXT, REPEAT_THE_SAME_TEXT, CHANGE_NUMBER_OF_SENTENCES, PAUSE_TIMER, TOGGLE_LOADER, TOGGLE_GAME_MODE,
+    SET_NUMBER_OF_CHARACTERS, ADD_MISTAKE, RESET_ACCURACY, ADD_SECOND, ADD_INPUTTED_CHARACTER, RESET_SPEED
+} from "./types";
 import $ from 'jquery';
 
 export function getText(number) {
     return async dispatch => {
 
-        dispatch(resetMistakes());
+        dispatch(resetAccuracy());
         dispatch(resetSpeed());
         dispatch(toggleLoader(true));
 
@@ -28,7 +31,7 @@ export function getText(number) {
             return;
         }
         
-        dispatch(setNumberOfLetters(data.length));
+        dispatch(setNumberOfCharacters(data.length));
         await dispatch({
             type: GET_TEXT,
             payload: data
@@ -59,9 +62,16 @@ export function toggleLoader(show) {
     };
 }
 
-export function setNumberOfLetters(number) {
+export function toggleGameMode(turnOn) {
     return {
-        type: SET_NUMBER_OF_LETTERS,
+        type: TOGGLE_GAME_MODE,
+        payload: turnOn
+    };
+}
+
+export function setNumberOfCharacters(number) {
+    return {
+        type: SET_NUMBER_OF_CHARACTERS,
         payload: number
     }
 }
@@ -72,9 +82,9 @@ export function addMistake() {
     }
 }
 
-export function resetMistakes() {
+export function resetAccuracy() {
     return {
-        type: RESET_MISTAKES
+        type: RESET_ACCURACY
     };
 }
 
@@ -86,7 +96,7 @@ export function addSecond() {
 
 export function addInputtedSymbol() {
     return {
-        type: ADD_INPUTTED_SYMBOL
+        type: ADD_INPUTTED_CHARACTER
     };
 }
 

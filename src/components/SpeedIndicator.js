@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { Loader } from './Loader';
 
-function SpeedIndicator({ numberOfInputtedSymbols, numberOfPassedSeconds, loading }) {
+function SpeedIndicator({ inputtedCharacters, passedSeconds, loading }) {
 
-    const speed = numberOfPassedSeconds ?
-        (numberOfInputtedSymbols * 60 / numberOfPassedSeconds).toFixed(0) : 0;
+    const speed = passedSeconds ?
+        (inputtedCharacters * 60 / passedSeconds).toFixed(0) : 0;
 
     return(
         <div class="card indicator" style={{width: '300px'}}>
@@ -24,8 +24,8 @@ function SpeedIndicator({ numberOfInputtedSymbols, numberOfPassedSeconds, loadin
 
 const mapStateToProps = state => {
     return {
-        numberOfInputtedSymbols: state.indicator.numberOfInputtedSymbols,
-        numberOfPassedSeconds: state.indicator.numberOfPassedSeconds,
+        inputtedCharacters: state.indicator.inputtedCharacters,
+        passedSeconds: state.indicator.passedSeconds,
         loading: state.text.loading
     };
 }
