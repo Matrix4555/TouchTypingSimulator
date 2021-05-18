@@ -8,12 +8,12 @@ function AccuracyIndicator({ characters, mistakes, loading }) {
         ((characters - mistakes) / characters * 100).toFixed(2) : 0;
 
     return(
-        <div class="card w-25 indicator">
-            <div class="card-header bg-primary text-white">
+        <div className="card w-25 indicator">
+            <div className="card-header bg-primary text-white">
                 Accuracy
             </div>
-            <div class="card-body">
-                <h5 class="card-title">{
+            <div className="card-body">
+                <h5 className="card-title">{
                     loading ? <Loader certainId={'indicator-spinner'}/> :
                     `${accuracy}%`
                 }</h5>

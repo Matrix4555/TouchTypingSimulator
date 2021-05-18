@@ -15,16 +15,16 @@ export const Modal = () => {
 
     return(
         <div>
-            <div class="modal fade" id="modal-result" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Congratulations!</h5>
+            <div className="modal fade" id="modal-result" data-backdrop="static" tabIndex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="staticBackdropLabel">Congratulations!</h5>
                     </div>
-                    <div class="modal-body">Your results from below &#8595;</div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => getNewText(true)}>Repeat the same text</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick={() => getNewText() }>New text</button>
+                    <div className="modal-body">Your results from below &#8595;</div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => getNewText(true)}>Repeat the same text</button>
+                        <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => getNewText() }>New text</button>
                     </div>
                     </div>
                 </div>

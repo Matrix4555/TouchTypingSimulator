@@ -8,6 +8,7 @@ class Text extends React.Component {
     constructor(props) {
         super(props);
         
+        this.charClass = 'character fs-4'; 
         this.currentText = 'Click the \'Get new text\' button to start';
         this.characters = null;
         this.counter = null;
@@ -55,7 +56,7 @@ class Text extends React.Component {
 
     correctInput() {
 
-        this.characters[this.counter].className = 'character fs-4 passed';
+        this.characters[this.counter].className = `${this.charClass} passed`;
         this.currentCharacterHasError = false;
 
         const amountOfCharacters = this.characters.length;
@@ -75,17 +76,17 @@ class Text extends React.Component {
                 if(!this.used.includes(this.counter))
                     break;
             }
-            this.characters[this.counter].className = 'character fs-4 current';
+            this.characters[this.counter].className = `${this.charClass} current`;
         }
         else
-            this.characters[++this.counter].className = 'character fs-4 current';
+            this.characters[++this.counter].className = `${this.charClass} current`;
 
         this.props.pauseTimer(false);
         this.props.addInputtedSymbol();
     }
 
     wrongInput() {
-        this.characters[this.counter].className = 'character fs-4 current mistaked';
+        this.characters[this.counter].className = `${this.charClass} current mistaked`;
         this.currentCharacterHasError = true;
         this.props.addMistake();
     }
@@ -117,7 +118,7 @@ class Text extends React.Component {
         
         this.characters = $('.character');
         this.counter = !this.props.gameMode ? 0 : this.getRandom(this.characters.length);
-        this.characters[this.counter].className = 'character fs-4 current';
+        this.characters[this.counter].className = `${this.charClass} current`;
 
         $('.text-field').trigger('focus');
     }
@@ -129,11 +130,11 @@ class Text extends React.Component {
         const text = this.props.text.replace('*', '');
 
         return(
-            <div className="text-field container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabindex="0">{
+            <div className="text-field container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabIndex="0">{
                 this.props.loading ?
                     <Loader certainId={'text-spinner'}/> :
                     <p className="align-self-center pt-2 pb-1">{
-                        text.split('').map((letter, index) => <span className="character fs-4" key={index}>{letter}</span>)
+                        text.split('').map((letter, index) => <span className={this.charClass} key={index}>{letter}</span>)
                     }</p>
             }</div>
         );

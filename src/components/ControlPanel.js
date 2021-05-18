@@ -13,7 +13,9 @@ export const ControlPanel = () => {
         $('body').css('background-color', dark ? '#303030' : 'white');
         $('.form-check-label').css('color', dark ? 'white' : 'black');
         $('.question-mark').css('fill', dark ? 'white' : 'gray');
-        $('.card-body').css('background-color', dark ? 'gray' : 'white');
+        $('.card').css('border', dark ? '2px solid #0d6efd' : '1px solid rgba(0, 0, 0, 0.125)');
+        $('.card-body').css('background-color', dark ? 'rgb(38, 38, 38)' : 'white');
+        $('.card-body').css('color', dark ? 'white' : 'black');
     }
 
     return(
@@ -44,23 +46,23 @@ export const ControlPanel = () => {
                         </path>
                     </svg>
                     <div id="prompt-question-mark">
-                        <div class="modal-content">
-                            <div class="modal-header bg-success text-white">
-                                <h6 class="modal-title" id="exampleModalLabel">Game Mode</h6>
+                        <div className="modal-content">
+                            <div className="modal-header bg-success text-white">
+                                <h6 className="modal-title" id="exampleModalLabel">Game Mode</h6>
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 This is a mode in which you have to write each character out of order but in random order. This increases the difficulty, improves your concentration and improves the search for the desired character while touch typing. This will be applied after updating the text.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={() => dispatch(toggleGameMode(!gameMode))}/>
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Game Mode</label>
+                <div className="form-check form-switch">
+                    <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={() => dispatch(toggleGameMode(!gameMode))}/>
+                    <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Game Mode</label>
                 </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={() => makeDarkMode($('body').css('background-color') === 'rgb(255, 255, 255)')}/>
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Dark Mode</label>
+                <div className="form-check form-switch">
+                    <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={() => makeDarkMode($('body').css('background-color') === 'rgb(255, 255, 255)')}/>
+                    <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Dark Mode</label>
                 </div>
             </div>
         </div>

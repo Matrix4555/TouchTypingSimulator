@@ -8,12 +8,12 @@ function SpeedIndicator({ inputtedCharacters, passedSeconds, loading }) {
         (inputtedCharacters * 60 / passedSeconds).toFixed(0) : 0;
 
     return(
-        <div class="card indicator" style={{width: '300px'}}>
-            <div class="card-header bg-primary text-white">
+        <div className="card indicator" style={{width: '300px'}}>
+            <div className="card-header bg-primary text-white">
                 Speed
             </div>
-            <div class="card-body">
-                <h5 class="card-title">{
+            <div className="card-body">
+                <h5 className="card-title">{
                     loading ? <Loader certainId={'indicator-spinner'}/> :
                     `${speed} characters per minute`
                 }</h5>
