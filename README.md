@@ -39,8 +39,8 @@ npm i react-scripts
 npm i redux
 npm i redux-thunk
 npm i web-vitals
-npm run build
 npm i -g serve
+npm run build
 ```
 
 ## Usage
@@ -51,7 +51,7 @@ In the command line specify the path to the folder with this project.
 cd "path"
 ```
 
-Then write the following:
+Then write the following.
 
 ```
 serve -s build
@@ -64,10 +64,8 @@ The link to the local server appeared in your clipboard, paste it into your brow
 - JavaScript
 - HTML
 - CSS
-<br/>
-
-- React
 - Node.js
+- React
 - Bootstrap
 - Redux
 - jQuery
