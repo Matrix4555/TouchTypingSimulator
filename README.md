@@ -1,4 +1,4 @@
-# Touch Typing Similator
+# Touch Typing Simulator
 
 ## Description
 
