@@ -28,19 +28,10 @@ Next, specify the path to the folder with this project.
 cd "path"
 ```
 
-Next, run the following commands.
+Next, run the following command.
 
 ```
-npm i bootstrap
-npm i jquery
-npm i react
-npm i react-dom
-npm i react-scripts
-npm i redux
-npm i redux-thunk
-npm i web-vitals
-npm i -g serve
-npm run build
+npm i
 ```
 
 ## Usage
@@ -54,7 +45,7 @@ cd "path"
 Then write the following.
 
 ```
-serve -s build
+npm start
 ```
 
 The link to the local server appeared in your clipboard, paste it into your browser and follow it.
