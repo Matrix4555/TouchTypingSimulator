@@ -48,8 +48,6 @@ Then write the following.
 npm start
 ```
 
-The link to the local server appeared in your clipboard, paste it into your browser and follow it.
-
 ## Technologies
 
 - JavaScript
