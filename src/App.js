@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-import { Modal } from './components/Modal';
+import { ResultsModal } from './components/ResultsModal';
 import { InputModal } from './components/InputModal';
 import { DangerModal } from './components/DangerModal';
 import { ControlPanel } from './components/ControlPanel';
@@ -13,9 +13,9 @@ import SpeedIndicator from './components/SpeedIndicator';
 
 function App() {
   return (
-    <div>
+    <>
       <div className="container pt-3" style={{width: '800px'}}>
-        <Modal />
+        <ResultsModal />
         <InputModal />
         <DangerModal />
         <ControlPanel />
@@ -26,7 +26,7 @@ function App() {
         </div>
       </div>
       <Alert />
-    </div>
+    </>
   );
 }
 

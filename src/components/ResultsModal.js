@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getText } from '../redux/actions';
 import $ from 'jquery';
 
-export const Modal = () => {
+export const ResultsModal = () => {
 
     const dispatch = useDispatch();
     const number = useSelector(state => state.text.numberOfSentences);

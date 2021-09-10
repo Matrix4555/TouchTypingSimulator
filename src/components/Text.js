@@ -133,7 +133,7 @@ class Text extends React.Component {
             <div className="text-field container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabIndex="0">{
                 this.props.loading ?
                     <Loader certainId={'text-spinner'}/> :
-                    <p className="align-self-center pt-2 pb-1">{
+                    <p className="align-self-center">{
                         text.split('').map((letter, index) => <span className={this.charClass} key={index}>{letter}</span>)
                     }</p>
             }</div>

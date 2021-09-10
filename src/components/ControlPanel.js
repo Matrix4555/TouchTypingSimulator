@@ -18,24 +18,26 @@ export const ControlPanel = () => {
         $('.card-body').css('color', dark ? 'white' : 'black');
     }
 
+    function changeNumberOfSentences() {
+        dispatch(pauseTimer(true));
+        window.$('#input-modal').modal('show');
+    }
+
     return(
         <div className="d-flex justify-content-between">
             <div>
                 <button id="btn-get" type="button" className="btn btn-primary" onClick={() => dispatch(getText(number))}>
                     Get new text
                 </button>
-                <button className="btn btn-primary" onClick={() => {
-                    dispatch(pauseTimer(true));
-                    window.$('#input-modal').modal('show');
-                }}>
+                <button className="btn btn-primary" onClick={changeNumberOfSentences}>
                     Change number of sentences
                 </button>
             </div>
             <div className="d-flex align-items-center">
                 <div className="question">
                     <svg className="question-mark"width="16" height="16"
-                        onMouseOver={() => window.$('#prompt-question-mark').css('display', 'block')}
-                        onMouseOut={() => window.$('#prompt-question-mark').css('display', 'none')}
+                        onMouseOver={() => $('#prompt-question-mark').css('display', 'block')}
+                        onMouseOut={() => $('#prompt-question-mark').css('display', 'none')}
                     >
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
                         <path

@@ -47,7 +47,7 @@ body {
     outline: none;
 }
 
-span {  /* fix */
+span {
     white-space: pre-wrap;
     justify-self: center;
 }
