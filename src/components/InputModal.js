@@ -38,15 +38,15 @@ export const InputModal = () => {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Change number of sentences</h5>
                         </div>
-                    <div className="modal-body">
-                        <div className="mb-3 d-flex">
-                            <label htmlFor="recipient-name" className="col-form-label" id="number-label">Number:</label>
-                            <input type="text" className="form-control" id="number-value" style={{width: '35px'}} onChange={handleChange} />
+                        <div className="modal-body">
+                            <div className="mb-3 d-flex">
+                                <label htmlFor="number-value" className="input-label col-form-label">Number:</label>
+                                <input type="text" className="form-control" id="number-value" onChange={handleChange} />
+                            </div>
+                            <span className="input-prompt">
+                                The changes will take effect for the new text.
+                            </span>
                         </div>
-                        <label style={{fontSize: '15px'}}>
-                            The changes will take effect for the new text
-                        </label>
-                    </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={finishModal}>Close</button>
                             <button type="button" className="btn btn-primary" onClick={change}>Change</button>
@@ -56,4 +56,4 @@ export const InputModal = () => {
             </div>
         </div>
     );
-}
+};

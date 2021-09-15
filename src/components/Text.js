@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Loader } from './Loader';
 import { addSecond, addInputtedSymbol, addMistake, pauseTimer } from '../redux/actions';
+import { Loader } from './Loader';
 import $ from 'jquery';
 
 class Text extends React.Component {
@@ -30,12 +31,12 @@ class Text extends React.Component {
         $('body').on('click', event => {
             if($(event.target).is('#number-value'))     // permit to focus on entering the number of sentences
                 return;
-            $('.text-field').trigger('focus');
+            $('.text').trigger('focus');
         });
 
         $('body').on('keydown', event => {
 
-            if(!$('.text-field').is(':focus') ||
+            if(!$('.text').is(':focus') ||
                 !this.characters ||
                 event.key.length !== 1) {               // the pressed button must be just a character without long name
                 return;
@@ -120,7 +121,7 @@ class Text extends React.Component {
         this.counter = !this.props.gameMode ? 0 : this.getRandom(this.characters.length);
         this.characters[this.counter].className = `${this.charClass} current`;
 
-        $('.text-field').trigger('focus');
+        $('.text').trigger('focus');
     }
 
     render() {
@@ -130,7 +131,7 @@ class Text extends React.Component {
         const text = this.props.text.replace('*', '');
 
         return(
-            <div className="text-field container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabIndex="0">{
+            <div className="text container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabIndex="0">{
                 this.props.loading ?
                     <Loader certainId={'text-spinner'}/> :
                     <p className="align-self-center">{
@@ -141,6 +142,17 @@ class Text extends React.Component {
     }
 }
 
+Text.propTypes = {
+    text: PropTypes.string,
+    pauseTimerIsActive: PropTypes.bool,
+    loading: PropTypes.bool,
+    gameMode: PropTypes.bool,
+    addSecond: PropTypes.func,
+    addInputtedSymbol: PropTypes.func,
+    addMistake: PropTypes.func,
+    pauseTimer: PropTypes.func
+};
+
 const mapStateToProps = state => {
     return {
         text: state.text.text,
@@ -148,10 +160,10 @@ const mapStateToProps = state => {
         loading: state.text.loading,
         gameMode: state.text.gameMode
     };
-}
+};
 
 const mapDispatchToProps = {
     addSecond, addInputtedSymbol, addMistake, pauseTimer
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Text);

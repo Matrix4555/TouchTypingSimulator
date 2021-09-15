@@ -26,7 +26,7 @@ export const ControlPanel = () => {
     return(
         <div className="d-flex justify-content-between">
             <div>
-                <button id="btn-get" type="button" className="btn btn-primary" onClick={() => dispatch(getText(number))}>
+                <button className="btn btn-primary" onClick={() => dispatch(getText(number))}>
                     Get new text
                 </button>
                 <button className="btn btn-primary" onClick={changeNumberOfSentences}>
@@ -35,9 +35,10 @@ export const ControlPanel = () => {
             </div>
             <div className="d-flex align-items-center">
                 <div className="question">
-                    <svg className="question-mark"width="16" height="16"
-                        onMouseOver={() => $('#prompt-question-mark').css('display', 'block')}
-                        onMouseOut={() => $('#prompt-question-mark').css('display', 'none')}
+                    <svg
+                        className="question-mark" width="16" height="16"
+                        onMouseOver={() => $('.question-propmpt').css('display', 'block')}
+                        onMouseOut={() => $('.question-propmpt').css('display', 'none')}
                     >
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
                         <path
@@ -47,10 +48,10 @@ export const ControlPanel = () => {
                             .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z">
                         </path>
                     </svg>
-                    <div id="prompt-question-mark">
+                    <div className="question-propmpt">
                         <div className="modal-content">
                             <div className="modal-header bg-success text-white">
-                                <h6 className="modal-title" id="exampleModalLabel">Game Mode</h6>
+                                <h6 className="modal-title">Game Mode</h6>
                             </div>
                             <div className="modal-body">
                                 This is a mode in which you have to write each character out of order but in random order. This increases the difficulty, improves your concentration and improves the search for the desired character while touch typing. This will be applied after updating the text.
@@ -59,14 +60,14 @@ export const ControlPanel = () => {
                     </div>
                 </div>
                 <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={() => dispatch(toggleGameMode(!gameMode))}/>
-                    <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Game Mode</label>
+                    <input className="form-check-input" type="checkbox" id="check-gamemode" onChange={() => dispatch(toggleGameMode(!gameMode))}/>
+                    <label className="form-check-label" htmlFor="check-gamemode">Game Mode</label>
                 </div>
                 <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={() => makeDarkMode($('body').css('background-color') === 'rgb(255, 255, 255)')}/>
-                    <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Dark Mode</label>
+                    <input className="form-check-input" type="checkbox" id="check-darkmode" onChange={() => makeDarkMode($('body').css('background-color') === 'rgb(255, 255, 255)')}/>
+                    <label className="form-check-label" htmlFor="check-darkmode">Dark Mode</label>
                 </div>
             </div>
         </div>
     );
-}
+};

@@ -1,7 +1,7 @@
 import {
     GET_TEXT, REPEAT_THE_SAME_TEXT, CHANGE_NUMBER_OF_SENTENCES, PAUSE_TIMER, TOGGLE_LOADER, TOGGLE_GAME_MODE,
     SET_NUMBER_OF_CHARACTERS, ADD_MISTAKE, RESET_ACCURACY, ADD_SECOND, ADD_INPUTTED_CHARACTER, RESET_SPEED
-} from "./types";
+} from './types';
 import $ from 'jquery';
 
 export function getText(number) {
@@ -14,7 +14,7 @@ export function getText(number) {
         if(number === -1) {     // if an user wants to repeat the same text and write it again
             await dispatch({
                 type: REPEAT_THE_SAME_TEXT
-            })
+            });
             dispatch(toggleLoader(false));
             return;
         }
@@ -38,21 +38,21 @@ export function getText(number) {
         });
         dispatch(toggleLoader(false));
         $('#btn-get').prop('disabled', false);
-    }
+    };
 }
 
 export function changeNumberOfSentences(number) {
     return {
         type: CHANGE_NUMBER_OF_SENTENCES,
         payload: number
-    }
+    };
 }
 
 export function pauseTimer(pause) {
     return {
         type: PAUSE_TIMER,
         payload: pause
-    }
+    };
 }
 
 export function toggleLoader(show) {
@@ -73,13 +73,13 @@ export function setNumberOfCharacters(number) {
     return {
         type: SET_NUMBER_OF_CHARACTERS,
         payload: number
-    }
+    };
 }
 
 export function addMistake() {
     return {
         type: ADD_MISTAKE
-    }
+    };
 }
 
 export function resetAccuracy() {

@@ -1,7 +1,7 @@
 export const GET_TEXT =                     'TEXT/GET_TEXT';
 export const REPEAT_THE_SAME_TEXT =         'TEXT/REPEAT_THE_SAME_TEXT';
 export const CHANGE_NUMBER_OF_SENTENCES =   'TEXT/CHANGE_NUMBER_OF_SENTENCES';
-export const PAUSE_TIMER =                  'TEXT/PAUSE_TIMER'
+export const PAUSE_TIMER =                  'TEXT/PAUSE_TIMER';
 export const TOGGLE_LOADER =                'TEXT/TOGGLE_LOADER';
 export const TOGGLE_GAME_MODE =             'TEXT/TOGGLE_GAME_MODE';
 

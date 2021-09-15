@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import { Loader } from './Loader';
 
 function AccuracyIndicator({ characters, mistakes, loading }) {
@@ -14,13 +15,20 @@ function AccuracyIndicator({ characters, mistakes, loading }) {
             </div>
             <div className="card-body">
                 <h5 className="card-title">{
-                    loading ? <Loader certainId={'indicator-spinner'}/> :
-                    `${accuracy}%`
+                    loading ?
+                        <Loader certainId={'indicator-spinner'}/> :
+                        `${accuracy}%`
                 }</h5>
             </div>
         </div>
     );
 }
+
+AccuracyIndicator.propTypes = {
+    characters: PropTypes.number,
+    mistakes: PropTypes.number,
+    loading: PropTypes.bool
+};
 
 const mapStateToProps = state => {
     return {
@@ -28,6 +36,6 @@ const mapStateToProps = state => {
         mistakes: state.indicator.mistakes,
         loading: state.text.loading
     };
-}
+};
 
 export default connect(mapStateToProps, null)(AccuracyIndicator);

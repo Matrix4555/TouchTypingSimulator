@@ -12,22 +12,22 @@ import AccuracyIndicator from './components/AccuracyIndicator';
 import SpeedIndicator from './components/SpeedIndicator';
 
 function App() {
-  return (
-    <>
-      <div className="container pt-3" style={{width: '800px'}}>
-        <ResultsModal />
-        <InputModal />
-        <DangerModal />
-        <ControlPanel />
-        <Text />
-        <div className="d-flex justify-content-end">
-          <AccuracyIndicator />
-          <SpeedIndicator />
-        </div>
-      </div>
-      <Alert />
-    </>
-  );
+    return (
+        <>
+            <div className="container pt-3" style={{width: '800px'}}>
+                <ResultsModal />
+                <InputModal />
+                <DangerModal />
+                <ControlPanel />
+                <Text />
+                <div className="d-flex justify-content-end">
+                    <AccuracyIndicator />
+                    <SpeedIndicator />
+                </div>
+            </div>
+            <Alert />
+        </>
+    );
 }
 
 export default App;

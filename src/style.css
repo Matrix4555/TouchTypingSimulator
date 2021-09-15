@@ -2,8 +2,23 @@ body {
     background: white;
 }
 
-.passed {
-    color:rgb(0, 5, 125);
+span {
+    white-space: pre-wrap;
+}
+
+.btn {
+    margin-right: 5px;
+} 
+
+/* text styles */
+
+.text {
+    min-height: 350px;
+    font-family: monospace;
+}
+
+.text:focus {
+    outline: none;
 }
 
 .current {
@@ -11,46 +26,16 @@ body {
     background-color: rgb(25, 210, 20);
 }
 
+.passed {
+    color:rgb(0, 5, 125);
+}
+
 .mistaked {
     color: white;
     background-color: red;
 }
 
-.btn {
-    margin: 0 5px 0 0;
-} 
-
-.form-switch {
-    margin: 0 0 0 15px;
-}
-
-#number-label {
-    margin: 0 15px 0 0;
-}
-
-.alert {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    display: none;
-    text-align: center;
-    width: 350px;
-    transform: translate(-350px, 0);
-    transition: transform .5s;
-}
-
-.text-field {
-    min-height: 350px;
-}
-
-.text-field:focus {
-    outline: none;
-}
-
-span {
-    white-space: pre-wrap;
-    justify-self: center;
-}
+/* spinner styles */
 
 #text-spinner {
     align-self: center;
@@ -63,9 +48,29 @@ span {
     width: 22px;
 }
 
+/* input modal styles */
+
+.input-label {
+    margin-right: 15px;
+}
+
+.input-prompt {
+    font-size: 14px;
+}
+
+#number-value {
+    width: 35px;
+}
+
+/* control panel styles */
+
+.form-switch {
+    margin-left: 15px;
+}
+
 .question {
-    position: relative;
     display: flex;
+    position: relative;
 }
 
 .question-mark {
@@ -76,9 +81,23 @@ span {
     fill:dodgerblue;
 }
 
-#prompt-question-mark {
+.question-propmpt {
     display: none;
-    position: absolute;
     width: 285px;
-    transform: translate(0, 25px);
+    position: absolute;
+    top: 25px;
+    left: 0;
+}
+
+/* alert styles */
+
+.alert {
+    display: none;
+    width: 350px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    transform: translate(-350px, 0);
+    transition: transform .5s;
 }

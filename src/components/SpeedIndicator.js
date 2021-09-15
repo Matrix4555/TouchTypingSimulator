@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import { Loader } from './Loader';
 
 function SpeedIndicator({ inputtedCharacters, passedSeconds, loading }) {
@@ -14,13 +15,20 @@ function SpeedIndicator({ inputtedCharacters, passedSeconds, loading }) {
             </div>
             <div className="card-body">
                 <h5 className="card-title">{
-                    loading ? <Loader certainId={'indicator-spinner'}/> :
-                    `${speed} characters per minute`
+                    loading ?
+                        <Loader certainId={'indicator-spinner'}/> :
+                        `${speed} characters per minute`
                 }</h5>
             </div>
         </div>
     );
 }
+
+SpeedIndicator.propTypes = {
+    inputtedCharacters: PropTypes.number,
+    passedSeconds: PropTypes.number,
+    loading: PropTypes.bool
+};
 
 const mapStateToProps = state => {
     return {
@@ -28,6 +36,6 @@ const mapStateToProps = state => {
         passedSeconds: state.indicator.passedSeconds,
         loading: state.text.loading
     };
-}
+};
 
 export default connect(mapStateToProps, null)(SpeedIndicator);
