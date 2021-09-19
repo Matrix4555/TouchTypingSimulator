@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addSecond, addInputtedSymbol, addMistake, pauseTimer } from '../../redux/actions';
 import { Text } from './Text';
+import { toggleModal } from '../../functions';
 import '../../styles/text.css';
 
 export function TextContainer() {
@@ -74,7 +75,7 @@ export function TextContainer() {
         setUsed([]);
         const indicators = document.querySelectorAll('.indicator');
         [].slice.call(indicators).map(el => el.style.zIndex = '9999');
-        window.$('#modal-result').modal('show');
+        toggleModal('#results-modal', true);
     }
 
     function killInterval() {

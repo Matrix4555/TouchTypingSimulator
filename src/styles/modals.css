@@ -1,0 +1,27 @@
+.modal {
+    transition: .4s;
+    opacity: 0;
+}
+
+.modal:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: -1;
+}
+
+.input-label {
+    margin-right: 15px;
+}
+
+.input-prompt {
+    font-size: 14px;
+}
+
+.input-input {
+    width: 35px;
+}

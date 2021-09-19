@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../styles/modals.css';
 
 export function DangerModal() {
     return(

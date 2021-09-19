@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { changeNumberOfSentences, pauseTimer } from '../../redux/actions';
-import '../../styles/input-modal.css';
+import { toggleModal } from '../../functions';
+import '../../styles/modals.css';
 
 export function InputModal() {
 
@@ -26,7 +27,7 @@ export function InputModal() {
     }
 
     function closeModal() {
-        window.$('#input-modal').modal('hide');
+        toggleModal('#input-modal', false);
         dispatch(pauseTimer(false));
     }
 
@@ -48,7 +49,7 @@ export function InputModal() {
                             </span>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={closeModal}>Close</button>
+                            <button type="button" className="btn btn-secondary" onClick={closeModal}>Close</button>
                             <button type="button" className="btn btn-primary" onClick={change}>Change</button>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getText, pauseTimer, toggleGameMode } from '../../redux/actions';
+import { toggleModal } from '../../functions';
 import '../../styles/control-panel.css';
 
 export function ControlPanel() {
@@ -36,12 +37,12 @@ export function ControlPanel() {
         btn.setAttribute('disabled', '');
         dispatch(getText(number))
             .then(() => btn.removeAttribute('disabled'))
-            .catch(() => window.$('#danger-modal').modal('show'));
+            .catch(() => toggleModal('#danger-modal', true));
     }
 
     function changeNumberOfSentences() {
         dispatch(pauseTimer(true));
-        window.$('#input-modal').modal('show');
+        toggleModal('#input-modal', true);
     }
 
     return(
