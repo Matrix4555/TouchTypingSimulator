@@ -1,17 +1,25 @@
 import React from 'react';
-import './style.css';
+import './styles/style.css';
 
-import { ResultsModal } from './components/ResultsModal';
-import { InputModal } from './components/InputModal';
-import { DangerModal } from './components/DangerModal';
-import { ControlPanel } from './components/ControlPanel';
-import { Alert } from './components/Alert';
+import { ResultsModal } from './components/modals/ResultsModal';
+import { InputModal } from './components/modals/InputModal';
+import { DangerModal } from './components/modals/DangerModal';
+import { ControlPanel } from './components/major/ControlPanel';
+import { Alert } from './components/minor/Alert';
 
-import Text from './components/Text';
-import AccuracyIndicator from './components/AccuracyIndicator';
-import SpeedIndicator from './components/SpeedIndicator';
+import { Text } from './components/major/Text';
+import { AccuracyIndicator } from './components/indicators/AccuracyIndicator';
+import { SpeedIndicator } from './components/indicators/SpeedIndicator';
 
-function App() {
+// for future comparison of body background-color in script with dark mode
+const body = document.querySelector('body');
+body.style.backgroundColor = 'white';
+body.addEventListener('click', e => {
+    if(e.target !== document.querySelector('#number-value'))
+        document.querySelector('.text').focus();
+});
+
+export function App() {
     return (
         <>
             <div className="container pt-3" style={{width: '800px'}}>
@@ -29,5 +37,3 @@ function App() {
         </>
     );
 }
-
-export default App;

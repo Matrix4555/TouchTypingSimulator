@@ -1,16 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getText } from '../redux/actions';
-import $ from 'jquery';
+import { getText } from '../../redux/actions';
 
-export const ResultsModal = () => {
+export function ResultsModal() {
 
     const dispatch = useDispatch();
     const number = useSelector(state => state.text.numberOfSentences);
 
     function getNewText(same = false) {
         dispatch(getText(same ? -1 : number));
-        $('.indicator').css('z-index', '0');
+        const indicators = document.querySelectorAll('.indicator');
+        [].slice.call(indicators).map(el => el.style.zIndex = '0');
     }
 
     return(
@@ -31,4 +31,4 @@ export const ResultsModal = () => {
             </div>
         </div>
     );
-};
+}

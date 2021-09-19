@@ -55,9 +55,8 @@ npm start
 - CSS
 - Node.js
 - React
-- Bootstrap
 - Redux
-- jQuery
+- Bootstrap
 
 ## Authors
 
@@ -65,4 +64,4 @@ Matrix4555
 
 ## License
 
-MIT
+No

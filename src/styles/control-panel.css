@@ -1,0 +1,24 @@
+.form-switch {
+    margin-left: 15px;
+}
+
+.question {
+    display: flex;
+    position: relative;
+}
+
+.question-mark {
+    fill: gray;
+}
+
+.question-mark:hover {
+    fill:dodgerblue;
+}
+
+.question-propmpt {
+    display: none;
+    width: 285px;
+    position: absolute;
+    top: 25px;
+    left: 0;
+}

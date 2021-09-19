@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const DangerModal = () => {
+export function DangerModal() {
     return(
         <div className="modal fade" id="danger-modal" data-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div className="modal-dialog">
@@ -19,4 +19,4 @@ export const DangerModal = () => {
             </div>
         </div>
     );
-};
+}

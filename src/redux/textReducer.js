@@ -6,7 +6,7 @@ import {
 const initialState = {
     text: 'Click the \'Get new text\' button to start',
     numberOfSentences: 1,
-    pauseTimer: true,
+    pause: true,
     loading: false,
     gameMode: false
 };
@@ -23,7 +23,7 @@ export const textReducer = (state = initialState, action) => {
     case CHANGE_NUMBER_OF_SENTENCES:                
         return {...state, numberOfSentences: action.payload};
     case PAUSE_TIMER:
-        return {...state, pauseTimer: action.payload};
+        return {...state, pause: action.payload};
     case TOGGLE_LOADER:
         return {...state, loading: action.payload};
     case TOGGLE_GAME_MODE:

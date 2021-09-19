@@ -1,0 +1,10 @@
+.text-spinner {
+    align-self: center;
+    height: 100px;
+    width: 100px;
+}
+
+.indicator-spinner {
+    height: 22px;
+    width: 22px;
+}

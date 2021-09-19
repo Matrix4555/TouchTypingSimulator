@@ -1,0 +1,26 @@
+.text {
+    min-height: 350px;
+    font-family: monospace;
+}
+
+.text:focus {
+    outline: none;
+}
+
+.character {
+    font-size: 24px;
+}
+
+.current {
+    color:rgb(0, 5, 125);
+    background-color: rgb(25, 210, 20);
+}
+
+.passed {
+    color:rgb(0, 5, 125);
+}
+
+.mistaked {
+    color: white;
+    background-color: red;
+}

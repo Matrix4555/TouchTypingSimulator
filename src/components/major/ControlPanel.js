@@ -1,21 +1,42 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getText, pauseTimer, toggleGameMode } from '../redux/actions';
-import $ from 'jquery';
+import { getText, pauseTimer, toggleGameMode } from '../../redux/actions';
+import '../../styles/control-panel.css';
 
-export const ControlPanel = () => {
+export function ControlPanel() {
 
     const dispatch = useDispatch();
     const number = useSelector(state => state.text.numberOfSentences);
     const gameMode = useSelector(state => state.text.gameMode);
 
-    function makeDarkMode(dark) {
-        $('body').css('background-color', dark ? '#303030' : 'white');
-        $('.form-check-label').css('color', dark ? 'white' : 'black');
-        $('.question-mark').css('fill', dark ? 'white' : 'gray');
-        $('.card').css('border', dark ? '2px solid #0d6efd' : '1px solid rgba(0, 0, 0, 0.125)');
-        $('.card-body').css('background-color', dark ? 'rgb(38, 38, 38)' : 'white');
-        $('.card-body').css('color', dark ? 'white' : 'black');
+    function makeDarkMode() {
+
+        const body = document.querySelector('body');
+        const question = document.querySelector('.question-mark');
+        const checks = document.querySelectorAll('.form-check-label');
+        const indicators = document.querySelectorAll('.indicator');
+        const indicatorBodies = document.querySelectorAll('.indicator-body');
+
+        const dark = body.style.backgroundColor === 'white';
+
+        body.style.backgroundColor = dark ? 'rgb(48, 48, 48)' : 'white';
+        question.style.fill = dark ? 'white' : 'gray';
+        [].slice.call(checks).map(el => el.style.color = dark ? 'white' : 'black');
+        [].slice.call(indicators).map(el => el.style.border = dark ?
+            '2px solid rgb(13, 110, 253)' :
+            '1px solid rgba(0, 0, 0, 0.125)');
+        [].slice.call(indicatorBodies).map(el => {
+            el.style.backgroundColor = dark ? 'rgb(38, 38, 38)' : 'white';
+            el.style.color = dark ? 'white' : 'black';
+        });
+    }
+
+    function getNewText() {
+        const btn = document.querySelector('.control-btn');
+        btn.setAttribute('disabled', '');
+        dispatch(getText(number))
+            .then(() => btn.removeAttribute('disabled'))
+            .catch(() => window.$('#danger-modal').modal('show'));
     }
 
     function changeNumberOfSentences() {
@@ -24,12 +45,12 @@ export const ControlPanel = () => {
     }
 
     return(
-        <div className="d-flex justify-content-between">
+        <div className="control d-flex justify-content-between">
             <div>
-                <button className="btn btn-primary" onClick={() => dispatch(getText(number))}>
+                <button className="control-btn btn btn-primary" onClick={getNewText}>
                     Get new text
                 </button>
-                <button className="btn btn-primary" onClick={changeNumberOfSentences}>
+                <button className="control-btn btn btn-primary" onClick={changeNumberOfSentences}>
                     Change number of sentences
                 </button>
             </div>
@@ -37,8 +58,8 @@ export const ControlPanel = () => {
                 <div className="question">
                     <svg
                         className="question-mark" width="16" height="16"
-                        onMouseOver={() => $('.question-propmpt').css('display', 'block')}
-                        onMouseOut={() => $('.question-propmpt').css('display', 'none')}
+                        onMouseOver={() => document.querySelector('.question-propmpt').style.display = 'block'}
+                        onMouseOut={() => document.querySelector('.question-propmpt').style.display = 'none'}
                     >
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
                         <path
@@ -64,10 +85,10 @@ export const ControlPanel = () => {
                     <label className="form-check-label" htmlFor="check-gamemode">Game Mode</label>
                 </div>
                 <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" id="check-darkmode" onChange={() => makeDarkMode($('body').css('background-color') === 'rgb(255, 255, 255)')}/>
+                    <input className="form-check-input" type="checkbox" id="check-darkmode" onChange={makeDarkMode}/>
                     <label className="form-check-label" htmlFor="check-darkmode">Dark Mode</label>
                 </div>
             </div>
         </div>
     );
-};
+}
