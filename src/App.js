@@ -5,11 +5,9 @@ import { ResultsModal } from './components/modals/ResultsModal';
 import { InputModal } from './components/modals/InputModal';
 import { DangerModal } from './components/modals/DangerModal';
 import { ControlPanel } from './components/major/ControlPanel';
+import { TextContainer } from './components/major/TextContainer';
+import { IndicatorsContainer } from './components/indicators/IndicatorsContainer';
 import { Alert } from './components/minor/Alert';
-
-import { Text } from './components/major/Text';
-import { AccuracyIndicator } from './components/indicators/AccuracyIndicator';
-import { SpeedIndicator } from './components/indicators/SpeedIndicator';
 
 // for future comparison of body background-color in script with dark mode
 const body = document.querySelector('body');
@@ -27,11 +25,8 @@ export function App() {
                 <InputModal />
                 <DangerModal />
                 <ControlPanel />
-                <Text />
-                <div className="d-flex justify-content-end">
-                    <AccuracyIndicator />
-                    <SpeedIndicator />
-                </div>
+                <TextContainer />
+                <IndicatorsContainer />
             </div>
             <Alert />
         </>
