@@ -1,140 +1,158 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addSecond, addInputtedSymbol, addMistake, pauseTimer } from '../../redux/actions';
+import { addSecond, addInputtedChar, addMistake, pauseTimer } from '../../redux/actions';
 import { Text } from './Text';
-import { toggleModal } from '../../functions';
+import { showModal } from '../../functions';
 import '../../styles/text.css';
 
 export function TextContainer() {
 
     const [currentText, setCurrentText] = useState('Click the \'Get new text\' button to start');
-    const [timerInterval, setTimerInterval] = useState(null);
+    const [indexOfCurrentChar, setIndexOfCurrentChar] = useState(null);
     const [gameMode, setGameMode] = useState(false);
-    const [characters, setCharacters] = useState([]);
-    const [counter, setCounter] = useState(null);
+    const [timer, setTimer] = useState(null);
+    const [chars, setChars] = useState([]);
     const [used, setUsed] = useState([]);
 
     const dispatch = useDispatch();
     const reduxState = useSelector(state => state.text);
-    let mistake = false;
+    let pastInputHasMistake = false;
 
-    function correctInput() {
+    function keydownHandler(e) {
+        const k = e.key;
 
-        if(!timerInterval)
-            setTimerInterval(setInterval(() => dispatch(addSecond()), 1000));
-
-        mistake = false;
-        const classesOfCurrentChar = characters[counter].classList;
-        classesOfCurrentChar.remove('current');
-        classesOfCurrentChar.remove('mistaked');
-        classesOfCurrentChar.add('passed');
-
-        const amountOfCharacters = characters.length;
-        // if we have typed a last character
-        if((!gameMode && counter + 1 === amountOfCharacters) || used.length + 1 === amountOfCharacters) {
-            finish();
+        if(!chars.length || k.length !== 1)
             return;
-        }
 
-        let updatedCounter = null;
-        if(gameMode) {
-            used.push(counter);
-            do updatedCounter = getRandom(amountOfCharacters);
-            while(used.includes(updatedCounter));
-        } else
-            updatedCounter = counter + 1;
-
-        characters[updatedCounter].classList.add('current');
-        setCounter(updatedCounter);
-
-        dispatch(pauseTimer(false));
-        dispatch(addInputtedSymbol());
-    }
-
-    function wrongInput() {
-        characters[counter].classList.add('mistaked');
-        mistake = true;
-        dispatch(addMistake());
-    }
-
-    function showAlert() {
-        const alert = document.querySelector('.alert');
-        if(!alert.style.display) {
-            setTimeout(() => {
-                alert.style.transform = 'translate(-350px, 0)';
-                setTimeout(() => alert.style.display = 'none', 500);    // .5s is the transition time
-            }, 4000);
-        }
-        alert.style.display = 'block';
-        setTimeout(() => alert.style.transform = 'translate(0, 0)', 0);
-    }
-
-    function finish() {
-        killInterval();
-        setUsed([]);
-        const indicators = document.querySelectorAll('.indicator');
-        [].slice.call(indicators).map(el => el.style.zIndex = '9999');
-        toggleModal('#results-modal', true);
-    }
-
-    function killInterval() {
-        clearInterval(timerInterval);
-        setTimerInterval(null);
-    }
-
-    function getRandom(max) {
-        return Math.floor(Math.random() * max);
-    }
-
-    function clickHandler(e) {
-
-        // the pressed button must be just a character without long name
-        if(!characters.length || e.key.length !== 1) {
-            return;
-        }
-
-        // check for cyrillic
-        if(e.key.match(/[а-я]/i)) {
+        if(k.match(/[а-я]/i)) {
             showAlert();
             return;
         }
 
-        const currentCharacter = document.querySelector('.current')?.textContent;
-        if(e.key === currentCharacter)
+        const currentChar = document.querySelector('.current')?.textContent;
+        if(k === currentChar)
             correctInput();
-        else if(!mistake)       // don't repeat if there is already a mistake
+        else if(!pastInputHasMistake)
             wrongInput();
     }
 
-    useEffect(() => {
-        
-        // if the text hasn't changed when the state was updated or loading is working then skip the next changes
-        if(currentText === reduxState.text || reduxState.loading)
+    function showAlert() {
+        const alertStyle = document.querySelector('.alert').style;
+        if(alertStyle.display !== 'block') {
+            setTimeout(() => {
+                alertStyle.transform = 'translate(-350px, 0)';
+                setTimeout(() => alertStyle.display = 'none', 500);
+            }, 4000);
+        }
+        alertStyle.display = 'block';
+        setTimeout(() => alertStyle.transform = 'translate(0, 0)', 0);
+    }
+    
+    function correctInput() {
+
+        if(!timer) setTimer(setInterval(() => dispatch(addSecond()), 1000));
+        pastInputHasMistake = false;
+        makeCurrentCharAsPassed();
+
+        if(isLastCharInputted()) {
+            finish();
             return;
+        }
 
-        killInterval();
+        makeNextCharAsCurrent();
+        dispatch(pauseTimer(false));
+        dispatch(addInputtedChar());
+    }
 
-        const updatedCharacters = document.querySelectorAll('.character');
-        const updatedCounter = !reduxState.gameMode ? 0 : getRandom(updatedCharacters.length);
-        updatedCharacters[updatedCounter].classList.add('current');
+    function wrongInput() {
+        chars[indexOfCurrentChar].classList.add('mistaked');
+        pastInputHasMistake = true;
+        dispatch(addMistake());
+    }
 
+    function makeCurrentCharAsPassed() {
+        const classesOfChar = chars[indexOfCurrentChar].classList;
+        classesOfChar.remove('current');
+        classesOfChar.remove('mistaked');
+        classesOfChar.add('passed');
+    }
+
+    function isLastCharInputted() {
+        const amountOfCharacters = chars.length;
+        return gameMode ?
+            used.length + 1 === amountOfCharacters :
+            indexOfCurrentChar + 1 === amountOfCharacters;
+    }
+
+    function finish() {
+        killTimer();
+        setUsed([]);
+        raiseZIndexOfIndicatorsAndOpenResults();
+    }
+
+    function makeNextCharAsCurrent() {
+        const updatedIndex = getIndexOfNextChar();
+        chars[updatedIndex].classList.add('current');
+        setIndexOfCurrentChar(updatedIndex);
+    }
+
+    function killTimer() {
+        clearInterval(timer);
+        setTimer(null);
+    }
+
+    function raiseZIndexOfIndicatorsAndOpenResults() {
+        const indicators = document.querySelectorAll('.indicator');
+        [].slice.call(indicators).map(el => el.style.zIndex = '9999');
+        showModal('#results-modal');
+    }
+
+    function getIndexOfNextChar() {
+        let index = null;
+        if(gameMode) {
+            used.push(indexOfCurrentChar);
+            do index = getRandomNumber(chars.length);
+            while(used.includes(index));
+        } else
+            index = indexOfCurrentChar + 1;
+        return index;
+    }
+
+    function getRandomNumber(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function startOver() {
+        killTimer();
+        updateCharsAndSetInitialIndex();
+        setUsed([]);
         setCurrentText(reduxState.text);
         setGameMode(reduxState.gameMode);
-        setCharacters(updatedCharacters);
-        setCounter(updatedCounter);
-
         document.querySelector('.text').focus();
+    }
+
+    function updateCharsAndSetInitialIndex() {
+        const updatedChars = document.querySelectorAll('.character');
+        [].slice.call(updatedChars).map(el => el.classList.remove('passed'));
+        setChars(updatedChars);
+
+        const updatedIndex = reduxState.gameMode ? getRandomNumber(updatedChars.length) : 0;
+        updatedChars[updatedIndex].classList.add('current');
+        setIndexOfCurrentChar(updatedIndex);
+    }
+
+    useEffect(() => {
+        if(currentText !== reduxState.text && !reduxState.loading)
+            startOver();
     });
 
-    // if the text repeats then it may contain an asterisk
-    // (more details in textReducer)
-    // we have to remove it here
+    // when text is repeated it may contain an asterisk
     const text = reduxState.text.replace('*', '');
     
     return(
-        <div className="text container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabIndex="0" onKeyDown={clickHandler}>
-            <Text text={reduxState.loading ? null :text} />
+        <div className="text container bg-primary text-white rounded mt-2 mb-2 d-flex justify-content-center" tabIndex="0" onKeyDown={keydownHandler}>
+            <Text text={reduxState.loading ? null : text} />
         </div>
     );
 }

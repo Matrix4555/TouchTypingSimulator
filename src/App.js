@@ -9,18 +9,13 @@ import { TextContainer } from './components/major/TextContainer';
 import { IndicatorsContainer } from './components/indicators/IndicatorsContainer';
 import { Alert } from './components/minor/Alert';
 
-// for future comparison of body background-color in script with dark mode
-const body = document.querySelector('body');
-body.style.backgroundColor = 'white';
-body.addEventListener('click', e => {
-    if(e.target !== document.querySelector('#number-value'))
-        document.querySelector('.text').focus();
-});
+import { setClickAndKeydownHandlersForText } from './functions';
+setClickAndKeydownHandlersForText();
 
 export function App() {
     return (
         <>
-            <div className="container pt-3" style={{width: '800px'}}>
+            <div className="app-upper container pt-3">
                 <ResultsModal />
                 <InputModal />
                 <DangerModal />

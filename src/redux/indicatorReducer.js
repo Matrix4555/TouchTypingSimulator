@@ -1,15 +1,17 @@
+import { getUpdatedAccuracy, getUpdatedSpeed } from '../functions';
 import {
-    ADD_MISTAKE, SET_NUMBER_OF_CHARACTERS, RESET_ACCURACY,
-    ADD_SECOND, ADD_INPUTTED_CHARACTER, RESET_SPEED
+    ADD_MISTAKE, SET_NUMBER_OF_CHARS,
+    ADD_SECOND, ADD_INPUTTED_CHAR,
+    RESET_ACCURACY_AND_SPEED
 } from './types';
 
 const initialState = {
-    // accuracy, data for formula
-    characters: 0,
+    // data for accuracy
+    chars: 0,
     mistakes: 0,
 
-    // speed, data for formula
-    inputtedCharacters: 0,
+    // data for speed
+    inputtedChars: 0,
     passedSeconds: 0,
 
     // counters
@@ -22,24 +24,35 @@ export const indicatorReducer = (state = initialState, action) => {
         
     // accuracy
     case ADD_MISTAKE:
-        let accuracy = (state.characters - (state.mistakes + 1)) / state.characters * 100;
-        accuracy = accuracy.toFixed(2);
-        return {...state, mistakes: state.mistakes + 1, accuracy};
-    case SET_NUMBER_OF_CHARACTERS:
-        return {...state, characters: action.payload};
-    case RESET_ACCURACY:
-        return {...state, mistakes: 0, accuracy: 100};
+        return {
+            ...state,
+            mistakes: state.mistakes + 1,
+            accuracy: getUpdatedAccuracy(state.chars, state.mistakes)
+        };
+    case SET_NUMBER_OF_CHARS:
+        return {...state, chars: action.payload};
 
     // speed
     case ADD_SECOND:
-        let speed = state.inputtedCharacters * 60 / (state.passedSeconds + 1);
-        speed = speed.toFixed(0);
-        return {...state, passedSeconds: state.passedSeconds + 1, speed};
-    case ADD_INPUTTED_CHARACTER:
-        return {...state, inputtedCharacters: state.inputtedCharacters + 1};
-    case RESET_SPEED:
-        return {...state, inputtedCharacters: 0, passedSeconds: 0, speed: 0};
+        return {
+            ...state,
+            passedSeconds: state.passedSeconds + 1,
+            speed: getUpdatedSpeed(state.inputtedChars, state.passedSeconds)
+        };
+    case ADD_INPUTTED_CHAR:
+        return {...state, inputtedChars: state.inputtedChars + 1};
 
+    // reset
+    case RESET_ACCURACY_AND_SPEED:
+        return {
+            ...state,
+            mistakes: 0,
+            accuracy: 100,
+            inputtedChars: 0,
+            passedSeconds: 0,
+            speed: 0
+        };
+    
     default:
         return state;
     }

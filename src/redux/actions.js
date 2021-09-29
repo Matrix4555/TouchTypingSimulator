@@ -1,40 +1,50 @@
 import {
     GET_TEXT, REPEAT_THE_SAME_TEXT, CHANGE_NUMBER_OF_SENTENCES, PAUSE_TIMER, TOGGLE_LOADER, TOGGLE_GAME_MODE,
-    ADD_MISTAKE, SET_NUMBER_OF_CHARACTERS, RESET_ACCURACY, ADD_SECOND, ADD_INPUTTED_CHARACTER, RESET_SPEED
+    ADD_MISTAKE, SET_NUMBER_OF_CHARS, ADD_SECOND, ADD_INPUTTED_CHAR, RESET_ACCURACY_AND_SPEED
 } from './types';
 
-export function getText(number) {
-    return async dispatch => {
+export function getText() {
+    return (dispatch, getState) => {
 
-        dispatch(resetAccuracy());
-        dispatch(resetSpeed());
+        const number = getState().text.numberOfSentences;
+        const url = `https://baconipsum.com/api/?type=meat-and-filler&sentences=${number}&format=text`;
+
+        dispatch(resetAccuracyAndSpeed());
         dispatch(toggleLoader(true));
 
-        // if an user wants to repeat the same text and write it again
-        if(number === -1) {
-            await dispatch({ type: REPEAT_THE_SAME_TEXT });
-            dispatch(toggleLoader(false));
-            return;
-        }
-
-        return new Promise((res, rej) => {
-            const url = `https://baconipsum.com/api/?type=meat-and-filler&sentences=${number}&format=text`;
+        return new Promise((enableGetTextBtn, showDangerModalAboutDisconnection) => {
             fetch(url)
-                .then(response => {
-                    response.text()
-                        .then(data => {
-                            dispatch({
-                                type: GET_TEXT,
-                                payload: data
-                            });
-                            dispatch(setNumberOfCharacters(data.length));
-                            dispatch(toggleLoader(false));
-                            res();
-                        });
+                .then(async response => {
+                    const data = await response.text();
+                    dispatch({
+                        type: GET_TEXT,
+                        payload: data
+                    });
+                    dispatch(setNumberOfChars(data.length));
+                    dispatch(toggleLoader(false));
+                    enableGetTextBtn();
                 })
-                .catch(() => rej());
+                .catch(() => showDangerModalAboutDisconnection());
         });
     };
+}
+
+export function repeatTheSameText() {
+    return (dispatch, getState) => {
+
+        let text = getState().text.text;
+        // we should add or remove an asterisk because we need new text anyway for rerender of TextContainer component
+        // if we add the asterisk then it will be removed later
+        text = text.includes('*') ?
+            text.replace('*', '') :
+            text.concat('*');
+
+        dispatch(resetAccuracyAndSpeed());
+        dispatch({
+            type: REPEAT_THE_SAME_TEXT,
+            payload: text
+        });
+    }; 
 }
 
 export function changeNumberOfSentences(number) {
@@ -51,17 +61,17 @@ export function pauseTimer(pause) {
     };
 }
 
-export function toggleLoader(show) {
+export function toggleLoader(shouldShow) {
     return {
         type: TOGGLE_LOADER,
-        payload: show
+        payload: shouldShow
     };
 }
 
-export function toggleGameMode(turnOn) {
+export function toggleGameMode(shouldTurnOn) {
     return {
         type: TOGGLE_GAME_MODE,
-        payload: turnOn
+        payload: shouldTurnOn
     };
 }
 
@@ -71,16 +81,10 @@ export function addMistake() {
     };
 }
 
-export function setNumberOfCharacters(number) {
+export function setNumberOfChars(number) {
     return {
-        type: SET_NUMBER_OF_CHARACTERS,
+        type: SET_NUMBER_OF_CHARS,
         payload: number
-    };
-}
-
-export function resetAccuracy() {
-    return {
-        type: RESET_ACCURACY
     };
 }
 
@@ -92,14 +96,14 @@ export function addSecond() {
     };
 }
 
-export function addInputtedSymbol() {
+export function addInputtedChar() {
     return {
-        type: ADD_INPUTTED_CHARACTER
+        type: ADD_INPUTTED_CHAR
     };
 }
 
-export function resetSpeed() {
+export function resetAccuracyAndSpeed() {
     return {
-        type: RESET_SPEED
+        type: RESET_ACCURACY_AND_SPEED
     };
 }
